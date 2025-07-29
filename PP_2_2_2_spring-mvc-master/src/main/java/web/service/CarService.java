@@ -4,7 +4,7 @@ import web.models.Car;
 
 import java.util.List;
 
-public interface Service {
+public interface CarService {
 
     public List<Car> showAll ();
 
