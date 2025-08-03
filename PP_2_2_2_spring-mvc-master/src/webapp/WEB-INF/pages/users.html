@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Users Management</title>
+    <style>
+        table { border-collapse: collapse; width: 100%; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        tr:nth-child(even) { background-color: #f2f2f2; }
+        .actions { display: flex; gap: 5px; }
+        .btn { padding: 5px 10px; cursor: pointer; }
+    </style>
+</head>
+<body>
+<h1>Users List</h1>
+
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Age</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="user : ${users}">
+        <td th:text="${user.id}"></td>
+        <td th:text="${user.firstName}"></td>
+        <td th:text="${user.lastName}"></td>
+        <td th:text="${user.age}"></td>
+        <td class="actions">
+            <a th:href="@{/edit(id=${user.id})}">
+                <button class="btn">Edit</button>
+            </a>
+            <form th:action="@{/delete}" method="post">
+                <input type="hidden" name="id" th:value="${user.id}">
+                <button type="submit" class="btn">Delete</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<br>
+<a href="/edit">
+    <button class="btn">Add New User</button>
+</a>
+</body>
+</html>
