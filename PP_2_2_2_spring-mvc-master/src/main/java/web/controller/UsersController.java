@@ -31,17 +31,7 @@ public class UsersController {
     }
 
     @PostMapping("/save")
-    public String saveUser(
-            @RequestParam(value = "id", required = false) Long id,
-            @RequestParam("firstName") String firstName,
-            @RequestParam("lastName") String lastName,
-            @RequestParam("age") int age) {
-
-        User user = new User();
-        user.setFirstName(firstName);
-        user.setLastName(lastName);
-        user.setAge(age);
-
+    public String saveUser(@ModelAttribute("user") User user) {
         userService.saveUser(user);
         return "redirect:/";
     }
@@ -54,8 +44,12 @@ public class UsersController {
 
     @GetMapping("/edit")
     public String editUserForm(@RequestParam(value = "id", required = false) Long id, Model model) {
-        User user = new User();
-        model.addAttribute("user", user);
+        if (id != null) {
+            User user = userService.getUser(id);
+            model.addAttribute("user", user);
+        } else {
+            model.addAttribute("user", new User());
+        }
         return "edit";
     }
 }
